@@ -36,7 +36,7 @@
             label1.Anchor = AnchorStyles.Top;
             label1.BackColor = SystemColors.ControlLight;
             label1.Font = new Font("Yu Gothic UI", 16F);
-            label1.Location = new Point(-1, -2);
+            label1.Location = new Point(0, 0);
             label1.Margin = new Padding(8, 0, 8, 0);
             label1.Name = "label1";
             label1.Size = new Size(128, 48);
@@ -49,7 +49,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1781, 880);
+            ClientSize = new Size(1634, 813);
             Controls.Add(label1);
             Name = "Form1";
             Text = "Form1";
