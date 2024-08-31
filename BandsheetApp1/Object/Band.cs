@@ -8,11 +8,13 @@ namespace BandsheetApp1.Object
 {
     public struct Band      //バンドの構造体、メンバーとバンド名を持つ。
     {
-        public string BandName;           // バンド名前
-        public string[] MemberNameArray;    // バンドメンバーの配列
+        public string BandName { get; set; }          // バンド名前
+        public List<string> MemberNameArray { get; set; }    // バンドメンバーの配列
+
+        public string MemberNames => string.Join(", ", MemberNameArray);
 
         // コンストラクタ
-        public Band(string bandName, string[] memberNameArray)
+        public Band(string bandName, List<string> memberNameArray)
         {
             BandName = bandName;
             MemberNameArray = memberNameArray;
@@ -30,7 +32,7 @@ namespace BandsheetApp1.Object
         }
 
         //既存のメンバーと重複があるかどうかの確認
-        public Boolean DualCheck(string[] existingmember)
+        public Boolean DualCheck(List<string> existingmember)
         {
             foreach (var n in MemberNameArray)
             {
