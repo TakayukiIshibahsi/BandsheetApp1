@@ -58,7 +58,7 @@ namespace BandsheetApp1.Method
                             Member mem = new Member();
 
 
-                            if (index > 3 && mem.IsMember(column))
+                            if (index > 3 && index < 12 && mem.IsMember(column))
                                 {
                                     member.Append(column);
                                 }
