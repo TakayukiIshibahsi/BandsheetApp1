@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BandsheetApp1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4885398666f591f71264177669719dd1e9b9e18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+086bc294fe0717922c86c9e0c46e53b389ff9742")]
 [assembly: System.Reflection.AssemblyProductAttribute("BandsheetApp1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BandsheetApp1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

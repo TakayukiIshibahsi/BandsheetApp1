@@ -12,65 +12,70 @@ namespace BandsheetApp1.Method
 {
     internal class CsvFile
     {
-        public Band[] ReadCsvFile(string filePath)
+        public List<Band> ReadCsvFile(string filePath)
         {
-            //結果のバンド列
-            Band[] result = null;
+            // 結果のバンドリスト
+            List<Band> result = new List<Band>();
 
             if (File.Exists(filePath))
             {
-                try 
+                try
                 {
                     // ファイルを1行ずつ読み込む
-                    string[] lines = File.ReadAllLines(filePath);
+                    string[] lines = File.ReadAllLines(filePath,Encoding.UTF8);
+                    Member mem = new Member();
 
-                    // 各行を処理
+                    // 各行を処理、つまりバンド単位
                     foreach (string line in lines)
                     {
                         // カンマで分割して各要素を取得
                         string[] columns = line.Split(',');
 
-                        //どのカラムなのか識別できるようにindexを用意
+                        // どのカラムなのか識別できるようにindexを用意
                         int index = 1;
-                        Boolean isBand = false;
+                        bool isBand = false;
                         string bandName = "";
-                        string[] member = []; 
-                        // 各要素に対して正規表現を適用
+                        List<string> members = new List<string>();
+
+                        // 各要素に対して正規表現を適用、つまりメンバー単位
                         foreach (string column in columns)
                         {
                             if (index == 1)
                             {
-                                Regex regex = new Regex(@"\d+");//スキャンしたものが数かどうか判断
+                                Regex regex = new Regex(@"\d+"); // スキャンしたものが数かどうか判断
                                 Match match = regex.Match(column);
 
                                 if (match.Success)
                                 {
                                     isBand = true;
-                                    
                                 }
                             }
 
-                            if (column != "" && index == 3 && isBand)
+                            if (!string.IsNullOrEmpty(column) && index == 3 && isBand)
                             {
-                                MessageBox.Show($"Band name: {column}");
                                 bandName = column;
                             }
-                            Member mem = new Member();
 
+                            if (index > 3 && index<12 && mem.IsMember(column))
+                            {
+                                members.Add(column);
+                            }
 
-                            if (index > 3 && index < 12 && mem.IsMember(column))
-                                {
-                                    member.Append(column);
-                                }
-                            
-                            //インクリメント
+                            // インクリメント
+
                             index++;
+                        }
+
+                        if (isBand)
+                        {
+                            Band band = new Band(bandName, members);
+                            result.Add(band);
                         }
                     }
                 }
-                catch
+                catch (IOException)
                 {
-                    MessageBox.Show("this file is using now!!");
+                    MessageBox.Show("このファイルは現在使用中です。");
                 }
             }
             else
