@@ -22,7 +22,7 @@ namespace BandsheetApp1.Method
                 try
                 {
                     // ファイルを1行ずつ読み込む
-                    string[] lines = File.ReadAllLines(filePath);
+                    string[] lines = File.ReadAllLines(filePath,Encoding.UTF8);
                     Member mem = new Member();
 
                     // 各行を処理、つまりバンド単位
@@ -56,7 +56,7 @@ namespace BandsheetApp1.Method
                                 bandName = column;
                             }
 
-                            if (index > 3 && mem.IsMember(column))
+                            if (index > 3 && index<12 && mem.IsMember(column))
                             {
                                 members.Add(column);
                             }
