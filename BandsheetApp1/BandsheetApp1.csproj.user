@@ -7,5 +7,8 @@
     <Compile Update="SheetSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SwapRowsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

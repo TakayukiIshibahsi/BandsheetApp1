@@ -38,6 +38,8 @@
             bandBindingSource = new BindingSource(components);
             button1 = new Button();
             tableLayoutPanel = new TableLayoutPanel();
+            button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bandBindingSource).BeginInit();
             SuspendLayout();
@@ -108,9 +110,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(1438, 692);
+            button1.Location = new Point(137, -1);
             button1.Name = "button1";
-            button1.Size = new Size(193, 100);
+            button1.Size = new Size(193, 48);
             button1.TabIndex = 2;
             button1.Text = "バンド練習表自動作成";
             button1.UseVisualStyleBackColor = true;
@@ -129,11 +131,32 @@
             tableLayoutPanel.Size = new Size(300, 150);
             tableLayoutPanel.TabIndex = 3;
             // 
+            // button2
+            // 
+            button2.Location = new Point(325, -1);
+            button2.Name = "button2";
+            button2.Size = new Size(193, 48);
+            button2.TabIndex = 4;
+            button2.Text = "行の入れ替え";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(515, -1);
+            button3.Name = "button3";
+            button3.Size = new Size(184, 48);
+            button3.TabIndex = 5;
+            button3.Text = "バンドの入れ替え";
+            button3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1751, 879);
+            Controls.Add(button3);
+            Controls.Add(button2);
             Controls.Add(dataGridView1);
             Controls.Add(button1);
             Controls.Add(label1);
@@ -154,5 +177,7 @@
         private DataGridViewTextBoxColumn memberNamesDataGridViewTextBoxColumn;
         private Button button1;
         private TableLayoutPanel tableLayoutPanel;
+        private Button button2;
+        private Button button3;
     }
 }

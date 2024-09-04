@@ -16,3 +16,5 @@ C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows
 C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows\BandsheetApp1.genruntimeconfig.cache
 C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows\ref\BandsheetApp1.dll
 C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows\BandsheetApp1.SheetSizeForm.resources
+C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows\BandsheetApp1.Properties.Resources.resources
+C:\Users\tktak\source\repos\BandsheetApp1\BandsheetApp1\obj\Debug\net8.0-windows\BandsheetApp1.SwapRowsForm.resources

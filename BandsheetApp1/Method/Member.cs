@@ -187,5 +187,23 @@ namespace BandsheetApp1.Method
             return bandSheet;
         }
 
+        public Band[][] SwapRows(Band[][] bands, int row1, int row2, int rows)
+        {
+            if (row1 >= 1 && row1 <= rows && row2 >= 1 && row2 <= rows)
+            {
+                Band[] bandRow1 = bands[row1 - 1];
+                Band[] bandRow2 = bands[row2 - 1];
+                bands[row1-1] = bandRow2;
+                bands[row2-1] = bandRow1;
+            }
+            else
+            {
+                // 条件を満たさない場合の処理を記述
+                throw new ArgumentOutOfRangeException("入力した行数が範囲外です。");
+            }
+
+            return bands;
+        }
+
     }
 }

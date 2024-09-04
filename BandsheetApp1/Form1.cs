@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace BandsheetApp1
 {
     public partial class Form1 : Form
     {
         public List<Band> Bands = new List<Band>();
+        public int Columns, Rows;
+        public Band[][] BandSheet;
 
         public Form1()
         {
@@ -60,7 +63,7 @@ namespace BandsheetApp1
         {
             var sb = new System.Text.StringBuilder();
 
-            sb.AppendLine($"BandSheet Size: {bandSheet.Length} rows");
+            sb.AppendLine($"BandSheet Size: {this.BandSheet.Length} rows"); 
 
             for (int i = 0; i < bandSheet.Length; i++)
             {
@@ -68,7 +71,7 @@ namespace BandsheetApp1
                 for (int j = 0; j < bandSheet[i].Length; j++)
                 {
                     string bandName = bandSheet[i][j]?.BandName ?? "null";
-                    string members  = bandSheet[i][j]?.MemberNames ?? "null";
+                    string members = bandSheet[i][j]?.MemberNames ?? "null";
                     sb.AppendLine($"Cell ({i}, {j}): {bandName} {members}");
                 }
             }
@@ -81,18 +84,18 @@ namespace BandsheetApp1
             {
                 if (sheetSizeForm.ShowDialog() == DialogResult.OK)
                 {
-                    
-                    int columns = sheetSizeForm.ColumnCount;
-                    int rows = sheetSizeForm.RowCount;
+
+                    this.Columns = sheetSizeForm.ColumnCount;
+                    this.Rows = sheetSizeForm.RowCount;
 
                     // DataGridView を非表示にする
                     dataGridView1.Visible = false;
 
                     // TableLayoutPanel を動的に生成
-                    tableLayoutPanel.Visible=true;
+                    tableLayoutPanel.Visible = true;
                     tableLayoutPanel.Controls.Clear();
-                    tableLayoutPanel.ColumnCount = columns+1;
-                    tableLayoutPanel.RowCount = rows;
+                    tableLayoutPanel.ColumnCount = this.Columns + 1;
+                    tableLayoutPanel.RowCount = this.Rows;
                     tableLayoutPanel.AutoSize = true;
                     tableLayoutPanel.Location = dataGridView1.Location;
 
@@ -100,16 +103,16 @@ namespace BandsheetApp1
                     Form studioInputForm = new Form { Size = new System.Drawing.Size(1500, 200) };
                     studioInputForm.Text = "Enter Studio Names";
 
-                    TableLayoutPanel studioInputPanel = new TableLayoutPanel { ColumnCount = columns+1, RowCount = 1, Dock = DockStyle.Top };
+                    TableLayoutPanel studioInputPanel = new TableLayoutPanel { ColumnCount = this.Columns + 1, RowCount = 1, Dock = DockStyle.Top };
 
                     // 各列に TextBox を追加
                     List<TextBox> textBoxList = new List<TextBox>();
-                    for (int col = 0; col < columns+1; col++)
+                    for (int col = 0; col < this.Columns + 1; col++)
                     {
                         TextBox studioTextBox = new TextBox();
                         if (col == 0)
                         {
-                            studioTextBox = new TextBox{Text = "time"};
+                            studioTextBox = new TextBox { Text = "time" };
                         }
                         else
                         {
@@ -128,7 +131,7 @@ namespace BandsheetApp1
                     okButton.Click += (sender, e) =>
                     {
                         // スタジオ名をヘッダーに反映
-                        for (int col = 0; col < columns+1; col++)
+                        for (int col = 0; col < this.Columns + 1; col++)
                         {
                             string studioName = textBoxList[col].Text;
                             Label headerLabel = new Label() { Text = studioName, AutoSize = true };
@@ -142,26 +145,25 @@ namespace BandsheetApp1
                     studioInputForm.Controls.Add(okButton);
                     studioInputForm.ShowDialog();
                     Member mem = new Member();
-                    Band[][] bandSheet = mem.AutomaticBandsheet(columns, rows, this.Bands);
-                    //DebugBandSheet(bandSheet);
+                    this.BandSheet = mem.AutomaticBandsheet(this.Columns, this.Rows, this.Bands); 
                     // データ行の追加（仮のデータ）
-                    for (int row = 1; row <= rows; row++)
+                    for (int row = 1; row <= this.Rows; row++)
                     {
-                        for (int col = 0; col < columns+1; col++)
+                        for (int col = 0; col < this.Columns + 1; col++)
                         {
                             TextBox cellTextBox = new TextBox();
                             if (col == 0)
                             {
-                                cellTextBox = new TextBox() { Text = $"{row}", AutoSize = true, Size = new System.Drawing.Size(80,64) };
+                                cellTextBox = new TextBox() { Text = $"{row}", AutoSize = true, Size = new System.Drawing.Size(80, 64) };
                             }
                             else
                             {
-                                if (row - 1 < bandSheet.Length && col - 1 < bandSheet[row - 1].Length)
+                                if (row - 1 < this.BandSheet.Length && col - 1 < this.BandSheet[row - 1].Length)
                                 {
-                                    cellTextBox = new TextBox() { Text = bandSheet[row - 1][col - 1].BandName, AutoSize = true, Size = new System.Drawing.Size(128, 64) };
+                                    cellTextBox = new TextBox() { Text = this.BandSheet[row - 1][col - 1].BandName, AutoSize = true, Size = new System.Drawing.Size(128, 64) };
                                 }
                             }
-                            
+
                             tableLayoutPanel.Controls.Add(cellTextBox, col, row);
                         }
                     }
@@ -175,6 +177,51 @@ namespace BandsheetApp1
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (SwapRowsForm swapRowsForm = new SwapRowsForm())
+            {
+                if(swapRowsForm.ShowDialog() == DialogResult.OK　&&  this.Columns * this.Rows > 0)
+                {
+                    // TableLayoutPanel を動的に生成
+                    tableLayoutPanel.Visible = true;
+                    tableLayoutPanel.Controls.Clear();
+                    tableLayoutPanel.ColumnCount = this.Columns + 1;
+                    tableLayoutPanel.RowCount = this.Rows;
+                    tableLayoutPanel.AutoSize = true;
+                    int row1 = swapRowsForm.Row1;
+                    int row2 = swapRowsForm.Row2;
+                    swapRowsForm.Dispose();
+                    //bandSheetの入れ替え
+                    Member mem = new Member();
+                    this.BandSheet = mem.SwapRows(this.BandSheet, row1, row2, this.Rows); 
+                    for (int row = 1; row <= this.Rows; row++)
+                    {
+                        for (int col = 0; col < this.Columns + 1; col++)
+                        {
+                            TextBox cellTextBox = new TextBox();
+                            if (col == 0)
+                            {
+                                cellTextBox = new TextBox() { Text = $"{row}", AutoSize = true, Size = new System.Drawing.Size(80, 64) };
+                            }
+                            else
+                            {
+                                if (row - 1 < this.BandSheet.Length && col - 1 < this.BandSheet[row - 1].Length)
+                                {
+                                    cellTextBox = new TextBox() { Text = this.BandSheet[row - 1][col - 1].BandName, AutoSize = true, Size = new System.Drawing.Size(128, 64) };
+                                }
+                            }
+
+                            tableLayoutPanel.Controls.Add(cellTextBox, col, row);
+                        }
+                    }
+
+                    // フォームに TableLayoutPanel を追加して表示
+                    
+                }
+            }
+
+        }
     }
 
 }
